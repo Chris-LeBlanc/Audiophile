@@ -1,3 +1,4 @@
+using Audiophile.Options;
 using DAL;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IDataAccess, DataAccess>();
 
+builder.Services.Configure<DatabaseOptions>(
+    builder.Configuration.GetSection(DatabaseOptions.SectionName));
 
 var app = builder.Build();
 

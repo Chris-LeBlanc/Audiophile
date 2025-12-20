@@ -1,18 +1,19 @@
 using System.Data;
 using Audiophile.Types;
 using Microsoft.Extensions.Configuration.Json;
+using Audiophile.Options;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Options;
 
 namespace DAL
 {
     public class DataAccess : IDataAccess
     {
-        private readonly string? connectionString;
+        private readonly string? _connectionString;
 
-        public DataAccess()
+        public DataAccess(IOptions<DatabaseOptions> options)
         {
-            var builder = new ConfigurationBuilder().AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true);
-            connectionString = builder.Build().GetConnectionString("AudiophileConnStr");
+           _connectionString = options.Value.AudiophileConnStr;
         }
 
         public async Task<DataTable> ExecuteAsync(string cmdText, List<Parm>? parms = null, CommandType cmdType = CommandType.StoredProcedure)
@@ -62,7 +63,7 @@ namespace DAL
 
         private SqlCommand CreateCommand(string cmdText, List<Parm>? parms, CommandType cmdType)
         {
-            SqlConnection conn = new(connectionString);
+            SqlConnection conn = new(_connectionString);
             SqlCommand cmd = new(SQLCleaner(cmdText), conn) { CommandType = cmdType };
 
             if (parms != null)
