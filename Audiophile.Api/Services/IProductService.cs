@@ -1,8 +1,8 @@
 using Audiophile.Models;
 
-namespace Audiophile.Repositories
+namespace Audiophile.Services
 {
-    public interface IProductRepository
+    public interface IProductService
     {
         Task<List<ProductListDto>> GetProductsAsync();
     }
