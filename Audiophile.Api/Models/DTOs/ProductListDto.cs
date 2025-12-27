@@ -1,4 +1,4 @@
 namespace Audiophile.Models
 {
-    public record ProductListDto(Guid id, string name, string description, decimal price, string image);
+    public record ProductListDto(Guid productId, string name, string description, decimal price);
 }
