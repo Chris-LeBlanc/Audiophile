@@ -1,7 +1,24 @@
+using Audiophile.Options;
+using Audiophile.Services;
+using Microsoft.Extensions.Options;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+
+builder.Services.Configure<OptionsConfig>(
+    builder.Configuration.GetSection(OptionsConfig.SectionName));
+
+builder.Services.AddHttpClient("OptionsConfig", (sp, client) =>
+{
+   var options = sp.GetRequiredService<IOptions<OptionsConfig>>().Value;
+   client.BaseAddress = new Uri(options.BaseUrl); 
+});
+
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
