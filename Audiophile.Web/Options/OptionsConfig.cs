@@ -1,11 +1,10 @@
-namespace Audiophile.Options
+namespace Audiophile.Options;
+
+public class OptionsConfig
 {
-    public class OptionsConfig
-    {
-        public const string SectionName = "ApiEndpoints";
+    public const string SectionName = "ApiEndpoints";
 
-        public string? BaseUrl { get; set; }
+    public string? BaseUrl { get; set; }
 
-        public string? Products { get; set;}
-    }
+    public string? Products { get; set; }
 }

@@ -1,9 +1,9 @@
 using Audiophile.Models;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Audiophile.Services
+namespace Audiophile.Services;
+
+public interface IProductService
 {
-    public interface IProductService
-    {
-        Task<List<ProductListDto>> GetProductsAsync();
-    }
+    Task<List<ProductListDto>> GetProductsAsync();
 }

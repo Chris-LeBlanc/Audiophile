@@ -1,35 +1,45 @@
 using System.Net;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Audiophile.Models;
 using Audiophile.Options;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
-namespace Audiophile.Services
+namespace Audiophile.Services;
+
+public class ProductService : IProductService
 {
-    public class ProductService : IProductService
+    private readonly HttpClient _httpClient;
+    private readonly OptionsConfig _options;
+
+    public ProductService(HttpClient httpClient, IOptions<OptionsConfig> options)
     {
-        private readonly HttpClient _httpClient;
-        private readonly OptionsConfig _options;
+        _httpClient = httpClient;
+        _options = options.Value;
 
-        public ProductService(HttpClient httpClient, IOptions<OptionsConfig> options)
-        {
-            _httpClient = httpClient;
-            _options = options.Value;
-
-        }
-        public async Task<List<ProductListDto>> GetProductsAsync()
+    }
+    public async Task<List<ProductListDto>> GetProductsAsync()
+    {
+        try
         {
             var response = await _httpClient.GetAsync($"{_options.BaseUrl}{_options.Products}");
 
-           if (response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
             {
-                var stream = await response.Content.ReadAsStreamAsync();
-                var dto = await JsonSerializer.DeserializeAsync<List<ProductListDto>>(stream);
-                return dto.ToList();
+                var contentString = await response.Content.ReadAsStringAsync();
+
+                var products = JsonSerializer.Deserialize<List<ProductListDto>>(contentString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+                return products;
             }
 
-            return response.StatusCode == HttpStatusCode.OK ? new List<ProductListDto>() : new List<ProductListDto>();
+            return new List<ProductListDto>();
+        }
+        catch (Exception ex)
+        {
+            throw new DllNotFoundException("Cannot find products requested", ex);
         }
     }
 }
