@@ -3,24 +3,22 @@ using Audiophile.Models;
 using Audiophile.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Audiophile.Controllers
+namespace Audiophile.Controllers;
+
+[ApiController]
+[Route("[controller]")]
+public class ProductController : ControllerBase
 {
-    
-    [ApiController]
-    [Route("[controller]")]
-    public class ProductController : ControllerBase
+    private readonly IProductService _productService;
+
+    public ProductController(IProductService productService)
     {
-        private readonly IProductService _productService;
+        _productService = productService;
+    }
 
-        public ProductController(IProductService productService)
-        {
-            _productService = productService;
-        }
-
-        [HttpGet]
-        public async Task<List<ProductListDto>> Index()
-        {
-            return await _productService.GetProductsAsync();
-        }
+    [HttpGet]
+    public async Task<List<ProductListDto>> Index()
+    {
+        return await _productService.GetProductsAsync();
     }
 }

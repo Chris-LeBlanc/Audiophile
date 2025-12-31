@@ -1,10 +1,9 @@
-namespace Audiophile.Models
-{
-    public class Image
-    {
-        public Guid ImageId { get; set; }
-        public string? small { get; set; }
+namespace Audiophile.Models;
 
-        public string? large { get; set; }
-    }
+public class Image
+{
+    public Guid ImageId { get; set; }
+    public string? small { get; set; }
+
+    public string? large { get; set; }
 }

@@ -2,20 +2,19 @@ using System.Threading.Tasks;
 using Audiophile.Models;
 using Audiophile.Repositories;
 
-namespace Audiophile.Services
+namespace Audiophile.Services;
+
+public class ProductService : IProductService
 {
-    public class ProductService : IProductService
+    private readonly IProductRepository _productRepository;
+
+    public ProductService(IProductRepository productRepository)
     {
-        private readonly IProductRepository _productRepository;
+        _productRepository = productRepository;
+    }
 
-        public ProductService(IProductRepository productRepository)
-        {
-            _productRepository = productRepository;
-        }
-
-        public async Task<List<ProductListDto>> GetProductsAsync()
-        {
-            return await _productRepository.GetProductsAsync();
-        }
+    public async Task<List<ProductListDto>> GetProductsAsync()
+    {
+        return await _productRepository.GetProductsAsync();
     }
 }

@@ -1,13 +1,12 @@
-namespace Audiophile.Models
+namespace Audiophile.Models;
+
+public class Login
 {
-    public class Login
-    {
-        public Guid LoginId { get; set; }
+    public Guid LoginId { get; set; }
 
-        public string? Email { get; set; } 
+    public string? Email { get; set; }
 
-        public string? Password { get; set; }
+    public string? Password { get; set; }
 
-        public User? User { get; set; }
-    }
+    public User? User { get; set; }
 }
