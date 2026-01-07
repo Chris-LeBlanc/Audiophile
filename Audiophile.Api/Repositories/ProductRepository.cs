@@ -16,7 +16,7 @@ public class ProductRepository : IProductRepository
         DataTable dt = await _db.ExecuteAsync("spGetAllProducts");
 
         return dt.AsEnumerable().Select(row =>
-        new ProductListDto((Guid)row["ProductId"], row["Name"].ToString(), row["Description"].ToString(), (int)row["ProductType"], (int)row["Quantity"], (decimal)row["Price"])
+        new ProductListDto((int)row["ProductId"], row["Slug"].ToString(), row["Name"].ToString(), (int)row["CategoryId"], (bool)row["IsNew"], (int)row["Price"], row["Description"].ToString(), row["Features"].ToString())
         ).ToList();
     }
 }

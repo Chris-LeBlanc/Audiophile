@@ -2,4 +2,4 @@ using System.Diagnostics;
 
 namespace Audiophile.Models;
 
-public record ProductListDto(int productId, string slug, string name, int categoryId, bool isNew, decimal price, string description, string features);
+public record ProductListDto(int ProductId, string Slug, string Name, int CategoryId, bool IsNew, decimal Price, string Description, string Features);
