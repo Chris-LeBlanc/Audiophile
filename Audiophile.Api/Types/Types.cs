@@ -28,3 +28,10 @@ public enum ErrorType
     Model,
     Business
 }
+
+public enum Category
+{
+    Headphones = 1,
+    Earphones = 2,
+    Speakers = 3
+}
