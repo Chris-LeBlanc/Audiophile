@@ -32,7 +32,7 @@ public class ProductService : IProductService
 
                 var products = JsonSerializer.Deserialize<List<ProductListDto>>(contentString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-                return products;
+                return products != null ? products : new List<ProductListDto>();
             }
 
             return new List<ProductListDto>();

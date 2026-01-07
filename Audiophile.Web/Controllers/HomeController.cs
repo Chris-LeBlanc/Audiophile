@@ -1,8 +1,9 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Audiophile.Web.Models;
+using Audiophile.Mappings;
 using Audiophile.Models;
 using Audiophile.Services;
+using Audiophile.Views;
 
 namespace Audiophile.Web.Controllers;
 
@@ -14,10 +15,15 @@ public class HomeController : Controller
         _productService = productService;
     }
 
-    public async Task<IActionResult> Index()
+    [HttpGet]
+    public async Task<ActionResult<List<ProductViewModel>>> Index()
     {
         var products = await _productService.GetProductsAsync();
 
-        return View(products);
+        var productsVm = products
+            .Select(ProductMapping.ToProductViewModel)
+            .ToList();
+
+        return View(productsVm);
     }
 }
