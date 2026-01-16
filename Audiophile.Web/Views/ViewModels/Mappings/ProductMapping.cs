@@ -5,7 +5,7 @@ namespace Audiophile.Mappings;
 
 public class ProductMapping
 {
-    public static ProductViewModel ToProductViewModel(ProductListDto dto)
+    public static ProductViewModel ToProductViewModel(ProductDto dto)
     {
         return new ProductViewModel()
         {

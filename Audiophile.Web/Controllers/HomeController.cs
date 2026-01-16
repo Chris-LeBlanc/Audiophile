@@ -16,9 +16,29 @@ public class HomeController : Controller
     }
 
     [HttpGet]
+    public async Task<IActionResult> GetProductAsync(int id)
+    {
+        var product = await _productService.GetProductAsync(id);
+
+        if (product == null)
+        {
+            return NotFound();
+        }
+
+        var productVm = ProductMapping.ToProductViewModel(product);
+
+        return View(productVm);
+    }
+
+    [HttpGet]
     public async Task<ActionResult<List<ProductViewModel>>> Index()
     {
         var products = await _productService.GetProductsAsync();
+
+        if (products == null)
+        {
+            return NotFound();
+        }
 
         var productsVm = products
             .Select(ProductMapping.ToProductViewModel)
