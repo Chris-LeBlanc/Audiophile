@@ -4,5 +4,6 @@ namespace Audiophile.Repositories;
 
 public interface IProductRepository
 {
-    Task<List<ProductListDto>> GetProductsAsync();
+    Task<ProductDto> GetProductAsync(int id);
+    Task<List<ProductDto>> GetProductsAsync();
 }

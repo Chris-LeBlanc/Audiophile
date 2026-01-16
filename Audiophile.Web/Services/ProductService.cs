@@ -20,7 +20,31 @@ public class ProductService : IProductService
         _options = options.Value;
 
     }
-    public async Task<List<ProductListDto>> GetProductsAsync()
+
+    public async Task<ProductDto> GetProductAsync(int id)
+    {
+        try
+        {
+            var response = await _httpClient.GetAsync($"{_options.BaseUrl}{_options.Products}{id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var contentString = await response.Content.ReadAsStringAsync();
+
+                var product = JsonSerializer.Deserialize<ProductDto>(contentString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true});
+
+                return product;
+            }
+
+            return null;
+        }
+        catch (Exception ex)
+        {
+            throw new DllNotFoundException("Cannot find products requested", ex);
+        }
+    }
+
+    public async Task<List<ProductDto>> GetProductsAsync()
     {
         try
         {
@@ -30,12 +54,12 @@ public class ProductService : IProductService
             {
                 var contentString = await response.Content.ReadAsStringAsync();
 
-                var products = JsonSerializer.Deserialize<List<ProductListDto>>(contentString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                var products = JsonSerializer.Deserialize<List<ProductDto>>(contentString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-                return products != null ? products : new List<ProductListDto>();
+                return products != null ? products : new List<ProductDto>();
             }
 
-            return new List<ProductListDto>();
+            return new List<ProductDto>();
         }
         catch (Exception ex)
         {

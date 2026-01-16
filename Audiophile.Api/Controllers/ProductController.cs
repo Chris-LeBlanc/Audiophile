@@ -17,7 +17,13 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<List<ProductListDto>> Index()
+    public async Task<ProductDto> GetProduct(int id)
+    {
+        return await _productService.GetProductAsync(id);
+    }
+
+    [HttpGet]
+    public async Task<List<ProductDto>> Index()
     {
         return await _productService.GetProductsAsync();
     }

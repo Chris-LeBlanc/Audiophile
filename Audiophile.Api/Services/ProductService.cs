@@ -13,7 +13,12 @@ public class ProductService : IProductService
         _productRepository = productRepository;
     }
 
-    public async Task<List<ProductListDto>> GetProductsAsync()
+    public async Task<ProductDto> GetProductAsync(int id)
+    {
+        return await _productRepository.GetProductAsync(id);
+    }
+
+    public async Task<List<ProductDto>> GetProductsAsync()
     {
         return await _productRepository.GetProductsAsync();
     }
