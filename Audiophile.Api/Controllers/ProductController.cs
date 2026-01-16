@@ -22,7 +22,7 @@ public class ProductController : ControllerBase
         return await _productService.GetProductsAsync();
     }
 
-    [HttpGet]
+    [HttpGet("{id}")]
     public async Task<ProductDto> Details(int id)
     {
         return await _productService.GetProductAsync(id);

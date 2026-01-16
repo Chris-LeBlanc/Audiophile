@@ -15,24 +15,24 @@ public class ProductRepository : IProductRepository
 
     public async Task<ProductDto> GetProductAsync(int id)
     {
-        DataTable dt = await _db.ExecuteAsync("spGetProduct", new List<Parm> { new("@ProductId", SqlDbType.Int, id)});
+        DataTable dt = await _db.ExecuteAsync("spGetProduct", new List<Parm> { new("@Id", SqlDbType.Int, id)});
 
        if (dt.Rows.Count == 0)
         {
-            return null;
+            throw new KeyNotFoundException($"Product with Id {id} not found");
         }
 
         DataRow row = dt.Rows[0];
 
         return new ProductDto(
-            ProductId: Convert.ToInt32(row["id"]),
+            ProductId: Convert.ToInt32(row["ProductId"]),
             Slug: row["slug"].ToString(),
             Name: row["name"].ToString(),
-            CategoryId: Convert.ToInt32(row["categoryId"]),
-            IsNew: Convert.ToBoolean(row["isNew"]),
-            Price: Convert.ToDecimal(row["price"]),
-            Description: row["description"].ToString(),
-            Features: row["features"].ToString()
+            CategoryId: Convert.ToInt32(row["CategoryId"]),
+            IsNew: Convert.ToBoolean(row["IsNew"]),
+            Price: Convert.ToDecimal(row["Price"]),
+            Description: row["Description"].ToString(),
+            Features: row["Features"].ToString()
         );
     }
 
